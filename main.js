@@ -4,9 +4,10 @@ import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
-import Swiper from 'swiper'; // Import Swiper library
+// import Swiper from 'swiper'; // Import Swiper library
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
-import '/js/swiper.js';
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 
 // import { defineConfig } from 'vitest/config';
@@ -26,7 +27,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/innerHeight, 0.1, 1000);
 
 // Render the graphics to the scene (#config)
-let renderer = new THREE.WebGL1Renderer({
+let renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
 
