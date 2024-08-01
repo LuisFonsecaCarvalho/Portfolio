@@ -5,7 +5,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 // import Swiper from 'swiper'; // Import Swiper library
-import 'swiper/swiper-bundle.css'; // Import Swiper styles
+// import 'swiper/swiper-bundle.css'; // Import Swiper styles
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
