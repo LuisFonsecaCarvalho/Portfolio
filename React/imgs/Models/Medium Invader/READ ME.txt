@@ -1,3 +1,0 @@
-Blender Users:
-
-If the materials are transparent turn them off to see the mesh. There are two pieces that are parented - an action piece and a standard one. The model also works in Cycles Render as well as Blender Game and Internal Render.

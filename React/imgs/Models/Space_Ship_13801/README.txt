@@ -1,1 +1,0 @@
-Space Ship by rm1732 on Thingiverse: https://www.thingiverse.com/thing:13801

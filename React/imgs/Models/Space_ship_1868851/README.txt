@@ -1,1 +1,0 @@
-Space ship by Otfunyr on Thingiverse: https://www.thingiverse.com/thing:1868851
