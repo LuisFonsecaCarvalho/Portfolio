@@ -2265,7 +2265,22 @@ h2.heading{
   margin-right: auto;
   flex: 0 0 45%;
   max-width: 35%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
+
+.Skill_text{
+  display: block;
+  height: 100%;
+}
+
+.Skill_logos{
+  display: block;
+  align-items: center;
+  /* height: 100%; */
+}
+
 #icons_skills{
   width:47px;
   /* height: 40px; */
@@ -3269,5 +3284,105 @@ h2.heading{
   position: relative;
   /* padding: 200px 0; */
   /* text-align: center; */
+}
+
+@media only screen and (max-width: 600px) {
+  /* first page */
+  .heading-3{
+    font-size: 20px;
+    margin-left:0px;
+    padding: 5px;
+    margin-top:0%;
+  }
+  h1{
+    line-height: 15px;
+    font-size: 15px;
+  }
+  .paragraph-2 {
+    margin-left: 0px;
+    margin-top: 20px;
+    font-size: 15px;
+    position: static;
+    top: auto;
+    bottom: 0%;
+    left: 0%;
+    right: auto;
+    background-color: #fff;
+    padding: 6px;
+  }
+  .slide-style{
+    padding: 0%;
+    margin-top: 0%;
+  }
+  #avatarLogo {
+    height: 40vw;
+    max-height: 250px;
+    bottom: 2%;
+  }
+  .div-block-4 {
+    padding-bottom: 0px;
+    margin-top: 30%;
+    height: 55%;
+  }
+  .button-2{
+    position: relative;
+    left:0%;
+    right: 0%;
+    top: 0%;
+    transform: translate(0%,0%);
+  }
+  .div-block-7 {
+    text-align: -moz-center;
+    }
+
+    /* ^Page 2 */
+  .div-block{
+    width: 60vw;
+    height: 45vh;
+    max-height: 1000px;
+    max-width: 1000px;
+    min-height: 200px;
+    min-width: 200px;
+    position: relative;
+    top: 0%;
+    bottom: auto;
+    left: 0%;
+    right: auto;
+    transform: translate(0%,0%) !important;
+    margin-top: 200px;
+    display: flex;
+    flex: 1px 1fr 1fr 1fr 1fr;
+    flex-direction: column;
+    column-gap: 40px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+  }
+  .heading-2{
+    font-size: 15px;
+    line-height:16px;
+    left: 8px;
+    top:0px;
+  }
+  .image{
+    height: 30vh;
+    max-height: 500px;
+    max-width: 584px;
+    width: 40vw;
+    bottom: 35vh;
+  }
+  .paragraph {
+    max-width: 100%;
+    font-size: 13px;
+    position: relative;
+    left: 0px;
+    text-align: justify;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-weight: normal !important;
+  }
 }
 

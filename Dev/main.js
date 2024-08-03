@@ -4,9 +4,9 @@ import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
-import Swiper from 'swiper'; // Import Swiper library
+// import Swiper from 'swiper'; // Import Swiper library
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
-import 'js/swiper.js';
+// import 'js/swiper.js';
 
 
 // import { defineConfig } from 'vitest/config';
@@ -536,6 +536,7 @@ loader.load("imgs/3d_space_invader.glb", function (gltf) {
   //start animation after all is loaded
   animate(); 
 });
+
 // Load the crown
 // loader.load("imgs/fall_guys_crown.glb", function (gltf) {  
 //   var object = clone(gltf.scene);
