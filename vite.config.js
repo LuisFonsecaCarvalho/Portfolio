@@ -7,8 +7,8 @@ export default defineConfig({
   base: "/Portfolio/",
   build: {
     rollupOptions: {
-      external: ['swiper'], // Add 'swiper' here
-      external: ['swiper/swiper-bundle.css'], // Add 'swiper/swiper-bundle.css' here
+      external: ['swiper', 'swiper/swiper-bundle.css'], // Add 'swiper/swiper-bundle.css' here
     },
   },
 })
+

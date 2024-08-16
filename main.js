@@ -1,3 +1,9 @@
+// vite.config.js
+export default {
+  // other configurations
+  external: ['swiper', 'swiper/swiper-bundle.css'], // Combine both entries here
+  // other configurations
+};
 import './style.css'
 
 import * as THREE from 'three';

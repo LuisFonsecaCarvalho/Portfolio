@@ -12,6 +12,8 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "esbuild": "^0.21.5",
     "swiper": "^11.1.9",
     "three": "^0.153.0",
     "vite-plugin-require": "^1.2.14"
