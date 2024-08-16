@@ -1,9 +1,3 @@
-// vite.config.js
-export default {
-  // other configurations
-  external: ['swiper', 'swiper/swiper-bundle.css'], // Combine both entries here
-  // other configurations
-};
 import './style.css'
 
 import * as THREE from 'three';
@@ -11,8 +5,16 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 // import Swiper from 'swiper'; // Import Swiper library
-import 'swiper/swiper-bundle.css'; // Import Swiper styles
+// import 'swiper/swiper-bundle.css'; // Import Swiper styles
 // import 'js/swiper.js';
+
+// import Swiper from './node_modules/swiper/swiper-bundle.css';;
+// import 'swiper/swiper-bundle.css';
+
+import Swiper from 'swiper/bundle';
+
+// import styles bundle
+import 'swiper/css/bundle';
 
 
 // import { defineConfig } from 'vitest/config';
