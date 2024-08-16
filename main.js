@@ -6,8 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 // import Swiper from 'swiper'; // Import Swiper library
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
-// import React from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'js/swiper.js';
 
 
 // import { defineConfig } from 'vitest/config';
@@ -27,7 +26,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/innerHeight, 0.1, 1000);
 
 // Render the graphics to the scene (#config)
-let renderer = new THREE.WebGLRenderer({
+let renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
 });
 
@@ -97,6 +96,7 @@ const swiper = new Swiper(".swiper", {
 
 const Swiper_Portfolio = new Swiper(".Swiper_Portfolio", {
   direction: "horizontal",
+  allowTouchMove:true,
   slidesPerView: 1,
   spaceBetween: 30,
   speed: speed_an,
@@ -131,6 +131,44 @@ document.body.addEventListener('wheel', (event) => {
   if(Swiper_Portfolio.realIndex==2){scene.background = new THREE.Color(0xffffff);}
   if( Swiper_Portfolio.realIndex==1 || Swiper_Portfolio.realIndex==3){scene.background = new THREE.Color(0x000000);}
  
+});
+
+// Event listner for mobile touch
+let startY;
+
+document.body.addEventListener('touchstart', (event) => {
+  startY = event.touches[0].clientY;
+});
+
+document.body.addEventListener('touchmove', (event) => {
+  let moveY = event.touches[0].clientY;
+  let deltaY = startY - moveY;
+
+  if (swiper.realIndex == 3) {
+    if ((Swiper_Portfolio.realIndex == 4 && deltaY > 10) || (Swiper_Portfolio.realIndex == 0 && deltaY < -10)) {
+      deltaY > 0 ? swiper.slideNext() : swiper.slidePrev();
+    } else {
+      deltaY > 0 ? Swiper_Portfolio.slideNext() : Swiper_Portfolio.slidePrev();
+    }
+  } else {
+    deltaY > 0 ? swiper.slideNext() : swiper.slidePrev();
+  }
+
+  if (Swiper_Portfolio.realIndex == 0) {
+    swiper.slidePrev();
+    Swiper_Portfolio.slideNext();
+  }
+  if (Swiper_Portfolio.realIndex == 4) {
+    swiper.slideNext();
+    Swiper_Portfolio.slidePrev();
+  }
+
+  if (Swiper_Portfolio.realIndex == 2) {
+    scene.background = new THREE.Color(0xffffff);
+  }
+  if (Swiper_Portfolio.realIndex == 1 || Swiper_Portfolio.realIndex == 3) {
+    scene.background = new THREE.Color(0x000000);
+  }
 });
 
 // event that fires when swiper goes to next slide
@@ -537,6 +575,7 @@ loader.load("imgs/3d_space_invader.glb", function (gltf) {
   //start animation after all is loaded
   animate(); 
 });
+
 // Load the crown
 // loader.load("imgs/fall_guys_crown.glb", function (gltf) {  
 //   var object = clone(gltf.scene);
