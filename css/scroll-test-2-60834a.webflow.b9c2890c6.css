@@ -283,6 +283,8 @@ html.w-mod-touch * {
   padding: 5px 30px;
   text-decoration: none;
   display: inline-block;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 input.w-button {
@@ -2169,7 +2171,7 @@ h2.heading{
 }
 
 .slide-style {
-  height: 85vh;
+  /* height: 85vh; */
   grid-column-gap: 16px;
   grid-row-gap: 16px;
   text-align: center;
@@ -2208,6 +2210,7 @@ h2.heading{
 }
 
 .swiper-bullet-custom {
+  position: relative;
   width: .4rem;
   height: .4rem;
   background-color: rgba(77, 69, 93, .3);
@@ -2319,7 +2322,7 @@ h2.heading{
   background-color: #0d0c0c82;
   border: none;
 
-  opacity: 40%;
+  opacity: 75%;
   transition: 0.8s;
 
   display: grid;
@@ -2339,7 +2342,7 @@ h2.heading{
 
 .navbar-logo{
   grid-column: 2;
-  height: 100%;
+  /* height: 100%; */
   width: 60%;
 }
 
@@ -2357,7 +2360,7 @@ h2.heading{
 
 .div-block {
   z-index: auto;
-  width: 500px;
+  width: 750px;
   height: 380px;
   max-height: 1000px;
   max-width: 1000px;
@@ -2367,8 +2370,9 @@ h2.heading{
   grid-row-gap: 0px;
   background-color: #464b56;
   border: 5px solid #28292b;
+  background: rgba(0, 0, 0, 0.8);
   border-radius: 7px;
-  grid-template-rows: 5% 0% 120px auto auto;
+  grid-template-rows: 5% 0% 70px auto auto;
   grid-template-columns: 1fr;
   grid-auto-columns: 1fr;
   grid-auto-flow: row;
@@ -2381,7 +2385,7 @@ h2.heading{
   position: absolute;
   top: 10%;
   right: 50%;
-  transform: translate(43%,-50%) !important;
+  transform: translate(45%,-50%) !important;
 }
 
 .container {
@@ -2410,7 +2414,7 @@ h2.heading{
   position: relative;
   bottom: 316px;
   left: 18%;
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -2423,7 +2427,7 @@ h2.heading{
   width: 100%;
   max-width: 100%;
   direction: ltr;
-  color: rgba(141, 63, 219, 0.788);
+  /* color: rgba(141, 63, 219, 0.788); */
   text-align: left;
   letter-spacing: normal;
   /* -webkit-text-stroke-width: 1.1px;
@@ -2431,12 +2435,13 @@ h2.heading{
   text-transform: capitalize;
   white-space: normal;
   font-family: "Press Start 2P", sans-serif;
-  font-size: 20px;
+  /* font-size: 20px;
   font-weight: 700;
-  line-height: 25px;
+  line-height: 25px; */
   position: relative;
-  top: 18px;
-  left: 41px;
+  top: 37px;
+  left: 15px;
+  grid-column:auto
 }
 
 .subscript {
@@ -2447,8 +2452,8 @@ h2.heading{
 }
 
 .paragraph {
-  /* max-width: 90%; */
-  color: #e2e2e2;
+  max-width: 100%;
+  color: #e8e8e8;
   text-align: left;
   -webkit-text-stroke-width: 0px;
   -webkit-text-stroke-color: #926e6e;
@@ -2458,12 +2463,16 @@ h2.heading{
   font-size: 18px;
   position: relative;
   /* left: 41px; */
-  text-align: justify;
+  text-align: center;
   padding-right: 41px;
   padding-left: 41px;
   padding-top: 0px;
   padding-bottom: 0px;
   font-weight: normal !important;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10.5px;
+  line-height: 1.3;
+  /* text-transform: uppercase; */
 }
 
 .div-block-3 {
@@ -2485,6 +2494,8 @@ h2.heading{
   background-color: #000000cf;
   padding: 32px;
   border-radius: 100px;
+  grid-row: 1;
+  grid-column: 1/span 2;
   /* border: 2px white solid;
   background-color: #ff0000;
   opacity: 0.9; */
@@ -3242,9 +3253,7 @@ h2.heading{
 
 #flex_exper{
   grid-column: span 2;
-  grid-column: span 2;
   display: flex; 
-  flex-comluns: 2; 
   flex-wrap: wrap;
 }
 
@@ -3512,7 +3521,7 @@ h2.heading{
   }
 
   a{
-    font-size: 9px !important;
+    font-size: 13px !important;
   }
 
   #contac_form img{
@@ -3527,3 +3536,40 @@ h2.heading{
   }
 }
 
+.w-button {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Normal / expanded state */
+.div-block {
+    grid-template-rows: 5% 0% 70px auto auto;
+    transition: grid-template-rows 0.3s ease;
+}
+
+/* Minimized state */
+.div-block.minimized {
+    height: 29px;
+    min-height: 0;
+    width: 29px;
+    margin-top: 217px;
+    background-color: #28292b;
+    padding-top: 8px;
+    min-width: 347px;
+      transform: translate(40%,-50%) !important;
+
+}
+
+.image.minimized {
+  position: static;
+  top: 18px;
+  margin-top: -79%;
+}
+
+.paragraph.minimized {
+  display: none;
+}
+
+.skills-hud.minimized {
+  display: none;
+}

@@ -1,31 +1,18 @@
-import './style.css'
+import '../style.css'
+import './skills.js'
+import './contacts.js'
+import './trophy.js'
+import './home.js'
 
 import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 // import Swiper from 'swiper'; // Import Swiper library
-// import 'swiper/swiper-bundle.css'; // Import Swiper styles
+import 'swiper/swiper-bundle.css'; // Import Swiper styles
 // import 'js/swiper.js';
 
-// import Swiper from './node_modules/swiper/swiper-bundle.css';;
-// import 'swiper/swiper-bundle.css';
 
-import Swiper from 'swiper/bundle';
-
-// import styles bundle
-import 'swiper/css/bundle';
-
-
-// import { defineConfig } from 'vitest/config';
-import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-import Stats from 'three/addons/libs/stats.module.js';
-import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
-import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-import { VertexNormalsHelper } from 'three/addons/helpers/VertexNormalsHelper.js';
-import { VertexTangentsHelper } from 'three/addons/helpers/VertexTangentsHelper.js';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
 // Create a scene, container that olds all my objects and lights(#config)
 const scene = new THREE.Scene();
@@ -38,10 +25,17 @@ let renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
 });
 
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, innerHeight);
 camera.position.setZ(800); // Move the camera along the Z axis
 camera.position.setY(5);  // Move the camera along the Y axis
+
+// Keep canvas and camera in sync with the window (instead of resizing every frame)
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 
 
@@ -102,6 +96,11 @@ const swiper = new Swiper(".swiper", {
   }
 });
 
+// Tell other modules (e.g. the skills chart) which slide is showing
+swiper.on("slideChange", () => {
+  document.dispatchEvent(new CustomEvent("portfolio:slide", { detail: swiper.realIndex }));
+});
+
 const Swiper_Portfolio = new Swiper(".Swiper_Portfolio", {
   direction: "horizontal",
   allowTouchMove:true,
@@ -119,14 +118,15 @@ document.body.addEventListener('wheel', (event) => {
 
   event.preventDefault();
 
+  const scrollingDown = event.deltaY > 0;
 
   if( swiper.realIndex==3){
-    if((Swiper_Portfolio.realIndex==4 && event.wheelDeltaY <0) ||(Swiper_Portfolio.realIndex==0 && event.wheelDeltaY >0)){
-      event.wheelDeltaY < 0 ? swiper.slideNext() : swiper.slidePrev();
+    if((Swiper_Portfolio.realIndex==4 && scrollingDown) ||(Swiper_Portfolio.realIndex==0 && !scrollingDown)){
+      scrollingDown ? swiper.slideNext() : swiper.slidePrev();
     }
-    else{event.wheelDeltaY < 0 ? Swiper_Portfolio.slideNext() : Swiper_Portfolio.slidePrev();}    
+    else{scrollingDown ? Swiper_Portfolio.slideNext() : Swiper_Portfolio.slidePrev();}
   }
-  else{ event.wheelDeltaY < 0 ? swiper.slideNext() : swiper.slidePrev();}
+  else{ scrollingDown ? swiper.slideNext() : swiper.slidePrev();}
   if(Swiper_Portfolio.realIndex==0){
     swiper.slidePrev();
     Swiper_Portfolio.slideNext();
@@ -138,19 +138,29 @@ document.body.addEventListener('wheel', (event) => {
 
   if(Swiper_Portfolio.realIndex==2){scene.background = new THREE.Color(0xffffff);}
   if( Swiper_Portfolio.realIndex==1 || Swiper_Portfolio.realIndex==3){scene.background = new THREE.Color(0x000000);}
- 
-});
+
+}, { passive: false });
 
 // Event listner for mobile touch
 let startY;
+let startX;
+let touchHandled = false;
 
 document.body.addEventListener('touchstart', (event) => {
   startY = event.touches[0].clientY;
-});
+  startX = event.touches[0].clientX;
+  touchHandled = false;
+}, { passive: true });
 
 document.body.addEventListener('touchmove', (event) => {
+  if (touchHandled) return; // one navigation per swipe
   let moveY = event.touches[0].clientY;
   let deltaY = startY - moveY;
+  let deltaX = startX - event.touches[0].clientX;
+
+  // ignore taps/jitter and mostly-horizontal swipes (those belong to the project carousel)
+  if (Math.abs(deltaY) < 30 || Math.abs(deltaY) < Math.abs(deltaX)) return;
+  touchHandled = true;
 
   if (swiper.realIndex == 3) {
     if ((Swiper_Portfolio.realIndex == 4 && deltaY > 10) || (Swiper_Portfolio.realIndex == 0 && deltaY < -10)) {
@@ -177,7 +187,7 @@ document.body.addEventListener('touchmove', (event) => {
   if (Swiper_Portfolio.realIndex == 1 || Swiper_Portfolio.realIndex == 3) {
     scene.background = new THREE.Color(0x000000);
   }
-});
+}, { passive: true });
 
 // event that fires when swiper goes to next slide
 swiper.on("slideNextTransitionStart", () => {
@@ -295,9 +305,34 @@ document.getElementById('go_To_Contacts').addEventListener('click', function() {
   swiper.slideTo(4); // Swiper uses zero-based indexing, so slide 5 is index 4
 });
 
-document.getElementById('w-node-_475191de-f6e8-9024-5d0a-bd63c5d18fb7-67f9e306').addEventListener('click', function() {
-  swiper.slideTo(1); // Swiper uses zero-based indexing, so slide 5 is index 4
+document.getElementById('w-node-_475191de-f6e8-9024-5d0a-bd63c5d18fb7-67f9e306').addEventListener('click', function(event) {
+  event.preventDefault(); // the inner link is href="#"
+  swiper.slideTo(1); // Swiper uses zero-based indexing, so slide 2 is index 1
 });
+
+/* --------------------------------------Event to minimize window description--------------------------------------------------------- */
+
+const tool_buttons = document.querySelectorAll(".tool_button");
+const grid = document.querySelector(".div-block");
+const tool_image = document.querySelector(".image");
+const tool_paragraph = document.querySelector(".paragraph");
+const tool_skills_hud = document.querySelector(".skills-hud");
+
+
+
+tool_buttons.forEach(button => {
+    button.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        // Toggle minimized state
+        grid.classList.toggle("minimized");
+        tool_image.classList.toggle("minimized");
+        tool_paragraph.classList.toggle("minimized");
+        tool_skills_hud.classList.toggle("minimized");
+
+    });
+});
+
 
 /* --------------------------------------Animation Function--------------------------------------------------------- */
 
@@ -356,7 +391,9 @@ function animate(timestamp){
     }
   //Update the control animation
   controls.update();
-  renderer.setSize(window.innerWidth, innerHeight);
+
+  // Rotate the globe from the single main loop
+  if (world) world.rotation.y += 0.01;
 
   //renders the scene and the camera
   renderer.render(scene, camera); 
@@ -395,7 +432,7 @@ function onMouseMove(event) {
         // intersects[0].object.material.color.set(0x3A8FA3);
       }
       else if(intersects[0].object.name.indexOf("Сфера")==0){
-        intersects[0].object.material.color.set(0xfffffff);
+        intersects[0].object.material.color.set(0xffffff);
       }
       else if(intersects[0].object.name.indexOf("Object")==0){
         // intersects[0].object.material.color.set(0xfffffff);
@@ -449,6 +486,7 @@ function onMouseClick(event) {
       if(intersects[0].object.name=="Space_Invader"){
         intersects[0].object.name="Space_Invader_kill";
         intersects[0].object.material.color.set(0xFF0000);
+        announceInvaders();
       }
   }
 }
@@ -580,6 +618,7 @@ loader.load("imgs/3d_space_invader.glb", function (gltf) {
 
     }
   }
+  announceInvaders();
   //start animation after all is loaded
   animate(); 
 });
@@ -837,14 +876,7 @@ function addvillain(villain, x, y, z){
       // node.material = new THREE.MeshBasicMaterial({ color:  0xFFFFFF });
       node.material = new THREE.MeshBasicMaterial( {
         color: params.color,
-        metalness: params.metalness,
-        roughness: params.roughness,
-        ior: params.ior,
         alphaMap: texture,
-        envMapIntensity: params.envMapIntensity,
-        transmission: params.transmission, // use material.transmission for glass materials
-        specularIntensity: params.specularIntensity,
-        specularColor: params.specularColor,
         opacity: params.opacity,
         side: THREE.DoubleSide,
         transparent: true
@@ -859,6 +891,27 @@ function addvillain(villain, x, y, z){
   // Add the object to the scene
   scene.add(villain);
 }
+
+// ----- invader mini-game: main.js owns the 3D objects, home.js owns score and HUD
+function invaderMeshes() {
+  const meshes = [];
+  villain.forEach((v) => v.traverse((n) => {
+    if (n.isMesh && n.name.indexOf("Space_Invader") === 0) meshes.push(n);
+  }));
+  return meshes;
+}
+function announceInvaders() {
+  const meshes = invaderMeshes();
+  const killed = meshes.filter((m) => m.name === "Space_Invader_kill").length;
+  document.dispatchEvent(new CustomEvent("portfolio:invader", { detail: { killed, total: meshes.length } }));
+}
+document.addEventListener("portfolio:respawn", () => {
+  invaderMeshes().forEach((m) => {
+    m.name = "Space_Invader";
+    m.material.color.set(params.color);
+  });
+  announceInvaders();
+});
 
 // function to re-size the glf objects @imput: Object
 function calculateSize(object) {
@@ -877,6 +930,7 @@ light.position.set(0, 35, 70);
 scene.add(light);
 
 
+let world = null;
 loader.load('imgs/world.glb', function(gltf) {
     var object = clone(gltf.scene);
       // Set the desired size of the object
@@ -893,13 +947,13 @@ loader.load('imgs/world.glb', function(gltf) {
       object.rotation.y = 0.01; // Rotate around Y-axis
       
     scene.add(object);
-    function animate() {
-      requestAnimationFrame(animate);
-      object.rotation.y += 0.01; // Rotate around Y-axis
-      renderer.render(scene, camera);
-    }
-    animate()
+    world = object; // rotated in the main animate() loop
 });
+
+// The globe sits right behind the Contacts content: hide it on that slide
+// document.addEventListener('portfolio:slide', (event) => {
+//   if (world) world.visible = event.detail !== 4;
+// });
 
 
 // #####  Asteroid
@@ -984,9 +1038,23 @@ function addAsteroide(asteroide, x, y, z){
 
 /* ----------------------------------------------------------------------------CV DOWNLOAD------------------------------------------*/
 
-document.getElementById('downloadcv').addEventListener('click', function() {
+function downloadCV() {
   var link = document.createElement('a');
-  link.href = 'imgs/Docs/CV-Luis Carvalho.pdf';
+  link.href = encodeURI('imgs/Docs/CV-Luis Carvalho.pdf');
   link.download = 'CV-Luis Carvalho.pdf';
-  link.dispatchEvent(new MouseEvent('click'));
-});
+  document.body.appendChild(link); // required by some browsers (e.g. Firefox)
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Legacy CV icon (replaced by the trophy link on the Contacts slide)
+const cvButton = document.getElementById('downloadcv');
+if (cvButton) {
+  cvButton.addEventListener('click', downloadCV);
+  cvButton.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      downloadCV();
+    }
+  });
+}
