@@ -114,6 +114,9 @@ const Swiper_Portfolio = new Swiper(".Swiper_Portfolio", {
   },
 });
 
+// index of the empty closing slide of the project carousel (grows with the number of projects)
+const PORT_LAST = Swiper_Portfolio.slides.length - 1;
+
 document.body.addEventListener('wheel', (event) => {
 
   event.preventDefault();
@@ -121,7 +124,7 @@ document.body.addEventListener('wheel', (event) => {
   const scrollingDown = event.deltaY > 0;
 
   if( swiper.realIndex==3){
-    if((Swiper_Portfolio.realIndex==4 && scrollingDown) ||(Swiper_Portfolio.realIndex==0 && !scrollingDown)){
+    if((Swiper_Portfolio.realIndex==PORT_LAST && scrollingDown) ||(Swiper_Portfolio.realIndex==0 && !scrollingDown)){
       scrollingDown ? swiper.slideNext() : swiper.slidePrev();
     }
     else{scrollingDown ? Swiper_Portfolio.slideNext() : Swiper_Portfolio.slidePrev();}
@@ -131,14 +134,18 @@ document.body.addEventListener('wheel', (event) => {
     swiper.slidePrev();
     Swiper_Portfolio.slideNext();
   }
-  if(Swiper_Portfolio.realIndex==4){
+  if(Swiper_Portfolio.realIndex==PORT_LAST){
     swiper.slideNext();
     Swiper_Portfolio.slidePrev();
   }
 
-  if(Swiper_Portfolio.realIndex==2){scene.background = new THREE.Color(0xffffff);}
-  if( Swiper_Portfolio.realIndex==1 || Swiper_Portfolio.realIndex==3){scene.background = new THREE.Color(0x000000);}
-
+  if( swiper.realIndex==3){
+    if(Swiper_Portfolio.realIndex==2 || Swiper_Portfolio.realIndex==4){scene.background = new THREE.Color(0xffffff);}
+    if( Swiper_Portfolio.realIndex==1 || Swiper_Portfolio.realIndex==3 ){scene.background = new THREE.Color(0x000000);}
+  }
+  else{
+    scene.background = new THREE.Color(0x000000);
+  }
 }, { passive: false });
 
 // Event listner for mobile touch
@@ -163,7 +170,7 @@ document.body.addEventListener('touchmove', (event) => {
   touchHandled = true;
 
   if (swiper.realIndex == 3) {
-    if ((Swiper_Portfolio.realIndex == 4 && deltaY > 10) || (Swiper_Portfolio.realIndex == 0 && deltaY < -10)) {
+    if ((Swiper_Portfolio.realIndex == PORT_LAST && deltaY > 10) || (Swiper_Portfolio.realIndex == 0 && deltaY < -10)) {
       deltaY > 0 ? swiper.slideNext() : swiper.slidePrev();
     } else {
       deltaY > 0 ? Swiper_Portfolio.slideNext() : Swiper_Portfolio.slidePrev();
@@ -176,7 +183,7 @@ document.body.addEventListener('touchmove', (event) => {
     swiper.slidePrev();
     Swiper_Portfolio.slideNext();
   }
-  if (Swiper_Portfolio.realIndex == 4) {
+  if (Swiper_Portfolio.realIndex == PORT_LAST) {
     swiper.slideNext();
     Swiper_Portfolio.slidePrev();
   }
@@ -184,7 +191,7 @@ document.body.addEventListener('touchmove', (event) => {
   if (Swiper_Portfolio.realIndex == 2) {
     scene.background = new THREE.Color(0xffffff);
   }
-  if (Swiper_Portfolio.realIndex == 1 || Swiper_Portfolio.realIndex == 3) {
+  if (Swiper_Portfolio.realIndex == 1 || Swiper_Portfolio.realIndex == 3 || Swiper_Portfolio.realIndex == 4) {
     scene.background = new THREE.Color(0x000000);
   }
 }, { passive: true });
@@ -317,6 +324,7 @@ const grid = document.querySelector(".div-block");
 const tool_image = document.querySelector(".image");
 const tool_paragraph = document.querySelector(".paragraph");
 const tool_skills_hud = document.querySelector(".skills-hud");
+const tool_score_iddel = document.querySelector(".score_iddel");
 
 
 
@@ -329,6 +337,7 @@ tool_buttons.forEach(button => {
         tool_image.classList.toggle("minimized");
         tool_paragraph.classList.toggle("minimized");
         tool_skills_hud.classList.toggle("minimized");
+        tool_score_iddel.classList.toggle("minimized");
 
     });
 });

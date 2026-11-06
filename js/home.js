@@ -10,7 +10,7 @@
  * Everything is resolved from the DOM on every update because Swiper's loop mode
  * clones slides (cloneNode drops listeners but keeps the markup).
  */
-import '../home.css';
+import '../css/home.css';
 
 const HI_KEY = 'portfolio-hiscore';
 const HI_DEFAULT = 7000; // 7+ years of experience, times 1000
@@ -65,6 +65,12 @@ function render() {
           : 'Click the invaders';
     }
     if (count) count.textContent = `${pad(killed, 2)}/${pad(total, 2)}`;
+  });
+
+  // compact readout inside the minimized About window
+  document.querySelectorAll('[data-mini-state]').forEach((el) => {
+    el.textContent = cleared ? 'Clear!' : `${pad(killed, 2)}/${pad(total, 2)}`;
+    el.classList.toggle('is-cleared', cleared);
   });
 }
 

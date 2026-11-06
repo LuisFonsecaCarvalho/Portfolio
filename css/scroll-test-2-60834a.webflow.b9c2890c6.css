@@ -3573,3 +3573,17 @@ h2.heading{
 .skills-hud.minimized {
   display: none;
 }
+
+.score_iddel{
+  display: none;
+
+}
+
+.score_iddel.minimized {
+  display: block;
+  position: fixed;
+  margin-top: 7%;
+  width: 100%;
+  height: 600%;
+  background: rgba(0, 0, 0, 0.8);
+}
