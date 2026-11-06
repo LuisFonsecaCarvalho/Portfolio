@@ -11,7 +11,7 @@ import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 // import Swiper from 'swiper'; // Import Swiper library
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
 // import 'js/swiper.js';
-
+import Swiper from 'swiper/bundle';
 
 
 // Create a scene, container that olds all my objects and lights(#config)
